@@ -3,7 +3,6 @@ import random
 import sys
 import os
 
-
 wn = turtle.Screen()
 wn.bgcolor("black")
 wn.setup(width=500, height=600)
@@ -93,7 +92,7 @@ def firepMissile():
     for pMissile in pMissiles:
         if pMissile.state == "ready":
             pMissile.setx(player.xcor())
-            pMissile.sety(player.ycor())
+            pMissile.sety(player.ycor() + 15)
             pMissile.showturtle()
             pMissile.state = "fire"
             break
@@ -102,7 +101,7 @@ def fireeMissile():
     for eMissile in eMissiles:
         if eMissile.state == "ready":
             eMissile.setx(bEnemy.xcor())
-            eMissile.sety(bEnemy.ycor())
+            eMissile.sety(bEnemy.ycor() - 30)
             eMissile.showturtle()
             eMissile.state = "fire"
             break
@@ -119,16 +118,16 @@ wn.onkeypress(firepMissile, "space")
 while True:
     wn.update()
     
-    if player.direction == "left":
+    if player.direction == "left" and player.xcor() > -230:
         player.setx(player.xcor() - 0.6)
     
-    elif player.direction == "right":
+    elif player.direction == "right" and player.xcor() < 230:
         player.setx(player.xcor() + 0.6)
     
-    elif player.direction == "up":
+    elif player.direction == "up" and player.ycor() < 270:
         player.sety(player.ycor() + 0.6)
     
-    elif player.direction == "down":
+    elif player.direction == "down" and player.ycor() > -270:
         player.sety(player.ycor() - 0.6)
 
     for pMissile in pMissiles:
