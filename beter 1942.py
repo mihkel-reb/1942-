@@ -9,9 +9,12 @@ wn.setup(width=500, height=600)
 wn.bgcolor("lightblue")
 wn.tracer(0)
 
-pPlane = os.path.expanduser("~/Desktop/1942/resources/plane.gif")
-sEnemyplane = os.path.expanduser("~/Desktop/1942/resources/senemyplane.gif")
-bEnemyplane = os.path.expanduser("~/Desktop/1942/resources/benemyplane.gif")
+path = os.getcwd()
+
+pPlane = "{}/resources/plane.gif".format(path)
+sEnemyplane = "{}/resources/senemyplane.gif".format(path)
+bEnemyplane = "{}/resources/benemyplane.gif".format(path)
+
 wn.addshape(pPlane)
 wn.addshape(sEnemyplane)
 wn.addshape(bEnemyplane)
