@@ -14,7 +14,8 @@ path = os.getcwd()
 sEnemies = []
 pMissiles = []
 eMissiles = []
-score = 0 
+score = 0
+bEnemylives = 3
 
 pPlane = "{}/resources/plane.gif".format(path)
 sEnemyplane = "{}/resources/senemyplane.gif".format(path)
@@ -24,8 +25,8 @@ wn.addshape(pPlane)
 wn.addshape(sEnemyplane)
 wn.addshape(bEnemyplane)
 
+
 player = turtle.Turtle()
-player.speed(0)
 player.shape(pPlane)
 player.penup()
 player.goto(0, -250)
@@ -49,31 +50,25 @@ for i in range(3):
     pMissile.color("yellow")
     pMissile.shape("square")
     pMissile.turtlesize(0.3)
-    pMissile.speed = 3
     pMissile.state = "ready"
     pMissiles.append(pMissile)
 
-for i in range(2):
+for i in range(3):
     eMissile = turtle.Turtle()
     eMissile.hideturtle()
-    eMissile.speed(0)
     eMissile.color("orange")
     eMissile.shape("square")
     eMissile.turtlesize(0.4)
     eMissile.penup()
-    eMissile.speed = 2
     eMissile.state = "ready"
     eMissiles.append(eMissile)
 
 
-
 bEnemy = turtle.Turtle()
-bEnemy.speed(0)
 bEnemy.shape(bEnemyplane)
 bEnemy.turtlesize(3)
 bEnemy.penup()
-bEnemy.goto(random.randint(-250, 250), 250)
-bEnemy.speed = 0.25
+bEnemy.setpos(random.randint(-220, 220), 250)
 bEnemy.setheading(270)
 
 
@@ -117,7 +112,7 @@ wn.onkeypress(firepMissile, "space")
 
 while True:
     wn.update()
-    
+
     if player.direction == "left" and player.xcor() > -230:
         player.setx(player.xcor() - 0.6)
     
@@ -143,20 +138,20 @@ while True:
 
     for eMissile in eMissiles:
         if eMissile.state == "fire":
-            eMissile.sety(eMissile.ycor() - 2)
+            eMissile.sety(eMissile.ycor() - 3)
 
         if eMissile.xcor() > 250 or eMissile.xcor() < -250 or eMissile.ycor() > 300 or eMissile.ycor() < -300:
             eMissile.hideturtle()
             eMissile.state = "ready"
 
     for sEnemy in sEnemies:    
-        sEnemy.sety(sEnemy.ycor() - random.uniform(0.5, 1.3))
+        #sEnemy.sety(sEnemy.ycor() - random.uniform(0.5, 1.3))
         sEnemy.setx(sEnemy.xcor() + random.uniform(-2, 2))
     
         if sEnemy.ycor() < -300:
             sEnemy.goto(random.randint(-300, 300), random.randint(400, 800))
     
-        if player.distance(sEnemy) < 20:
+        if player.distance(sEnemy) < 25:
             sys.exit(0)
 
         for pMissile in pMissiles:
@@ -171,10 +166,10 @@ while True:
                 pMissile.hideturtle()
                 pMissile.state = "ready"
     
-    bEnemy.sety(bEnemy.ycor() - 0.5)
+    bEnemy.sety(bEnemy.ycor() - 0.25)
     bEnemy.setx(bEnemy.xcor() + random.uniform(-1, 1))
 
-    if player.distance(bEnemy) < 30:
+    if player.distance(bEnemy) < 40:
             sys.exit(0)
 
     if bEnemy.ycor() < -300:
@@ -182,11 +177,18 @@ while True:
 
     for pMissile in pMissiles:
         if pMissile.distance(bEnemy) < 30:
-            bEnemy.hideturtle()
-            bEnemy.goto(random.randint(-300, 300), random.randint(400, 800))
-            bEnemy.showturtle()
-            score += 30
-            print(score)
+            bEnemylives -= 1
+            print(bEnemylives)
+            if bEnemylives > 0:
+                pass
+            else:
+                bEnemy.hideturtle()
+                bEnemy.goto(random.randint(-300, 300), random.randint(400, 800))
+                bEnemy.showturtle()
+                bEnemylives = 3
+                print(bEnemylives)
+                score += 30
+                print(score)
             
             pMissile.setpos(1000, 1000)
             pMissile.hideturtle()
